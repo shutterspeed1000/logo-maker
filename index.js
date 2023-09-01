@@ -54,7 +54,9 @@ function getShapeInfo(){
 
     questions.prompt(shapeInfo).then((answers) => {
 
-      console.log(shapeMaker(answers))
+      const finalShape = shapeMaker(answers)
+
+      console.log(finalShape)
 
     })
 
