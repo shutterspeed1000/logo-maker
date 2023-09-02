@@ -14,6 +14,8 @@ const shapeInfo = [
       if (value.length < 1) {
         return `You must provide text for your logo`;
       }
+      if (value.length > 3)
+        return `3 characters maximum`
       return true;
     },
     
@@ -71,7 +73,7 @@ getShapeInfo()
       if (err) {
         console.log(err);
       } else {
-        console.log('File written successfully');
+        console.log('Generated logo.svg');
       }
     });
   })
