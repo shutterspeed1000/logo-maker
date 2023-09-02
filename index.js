@@ -4,7 +4,7 @@ const questions = require("inquirer");
 const fs = require("fs");
 const shapeMaker = require("./lib/shapes");
 
-// Question bank for readme.md
+// Question bank for share
 const shapeInfo = [
   {
     type: "input",
@@ -50,18 +50,34 @@ const shapeInfo = [
  
 ];
 
-function getShapeInfo(){
+// Function to ask questions/sends data to shapeMaker function
+const getShapeInfo = async () => {
+  try {
+  const answers = await questions.prompt(shapeInfo)
+  const finalShape = await shapeMaker(answers)
+   return finalShape
 
-    questions.prompt(shapeInfo).then((answers) => {
+  } catch (error) {
 
-      const finalShape = shapeMaker(answers)
+    console.log(error)
+}
 
-      console.log(finalShape)
+}
 
-    })
-
-  }
-
-
+// Starts app and gets daya from getShapeInfo, writes to file.
 getShapeInfo()
+  .then(finalShape => {
+    fs.writeFile('logo.svg', finalShape, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('File written successfully');
+      }
+    });
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
 
