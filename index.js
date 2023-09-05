@@ -2,7 +2,7 @@
 
 const questions = require("inquirer");
 const fs = require("fs");
-const shapeMaker = require("./lib/shapes");
+const {shapeMaker} = require("./lib/shapes");
 
 // Question bank for share
 const shapeInfo = [
@@ -14,11 +14,9 @@ const shapeInfo = [
       if (value.length < 1) {
         return `You must provide text for your logo`;
       }
-      if (value.length > 3)
-        return `3 characters maximum`
+      if (value.length > 3) return `3 characters maximum`;
       return true;
     },
-    
   },
   {
     type: "input",
@@ -34,9 +32,9 @@ const shapeInfo = [
   {
     type: "list",
     message: "Please select a shape:",
-    choices: ["Circle","Triangle","Square"],
-    name:"logoShape",  
-    },
+    choices: ["Circle", "Triangle", "Square"],
+    name: "logoShape",
+  },
 
   {
     type: "input",
@@ -49,37 +47,26 @@ const shapeInfo = [
       return true;
     },
   },
- 
 ];
 
-// Function to ask questions/sends data to shapeMaker function
+// Function to ask questions/sends data to shapeMaker function and write final logo file
 const getShapeInfo = async () => {
   try {
-  const answers = await questions.prompt(shapeInfo)
-  const finalShape = await shapeMaker(answers)
-   return finalShape
+    const answers = await questions.prompt(shapeInfo);
+    const finalShape = shapeMaker(answers);
 
-  } catch (error) {
-
-    console.log(error)
-}
-
-}
-
-// Starts app and gets daya from getShapeInfo, writes to file.
-getShapeInfo()
-  .then(finalShape => {
-    fs.writeFile('logo.svg', finalShape, function(err) {
+    fs.writeFile("logo.svg", finalShape, function (err) {
       if (err) {
         console.log(err);
       } else {
-        console.log('Generated logo.svg');
+        console.log("Generated logo.svg");
       }
     });
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-
+// Starts app and gets daya from getShapeInfo, writes to file.
+getShapeInfo();
 
